@@ -1,1 +1,1 @@
-# challenge-python
+# Technical Challenge for Python

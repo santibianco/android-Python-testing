@@ -35,12 +35,23 @@ def appIsInstalled(path, device, serialno):
                                        "packages", package],
                                        shell=False)) > 0
 
+def uninstallApp(path, device, serialno):
+    if(appIsInstalled(path, device, serialno)):
+        viewClientObject = ViewClient(device, serialno)
+        package = getPackageFromApk(path)
+        return subprocess.check_output([viewClientObject.adb,
+                                        "uninstall",
+                                        package], shell=False)
+    else:
+        return "App alerady uninstalled"
+
 
 def takeScreenshot(device, filename): 
     try: 
         device.takeSnapshot(reconnect=True).save("screenshots/" + filename + '.png', 'PNG')
+        return 1
     except: 
-        print "Error, check the device is already conencted" 
+        return 0
 
 
 def runInstalledApp(path, device, serialno):
@@ -53,16 +64,14 @@ def runInstalledApp(path, device, serialno):
                                        "-n", package+"/"+activity],
                                        shell=False)
     else: 
-        print "App not found. Check if it was installed correctly"
+        return "Error running app"
 
 
 if __name__ == "__main__":
     app_path = "apps/speedtest.apk"
-    device, serialno = ViewClient.connectToDeviceOrExit()
-
-    #print appIsInstalled(app_path, device, serialno)
-    #print getPackageFromApk(app_path)
-    #print getLaunchableActivityFromApk(app_path)
+    device, serialno = ViewClient.connectToDeviceOrExit(verbose=True)
+    uninstallApp(app_path, device, serialno)
+    installApp(app_path, device, serialno)
     runInstalledApp(app_path, device, serialno)
     time.sleep(5)
     takeScreenshot(device, "first screenshot")

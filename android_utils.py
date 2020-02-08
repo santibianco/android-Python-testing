@@ -5,8 +5,8 @@ import time
 def installApp(path, device, serialno):
     viewClientObject = ViewClient(device, serialno)
     return subprocess.check_call([viewClientObject.adb,
-                                 "install", "-r",
-                                 path], shell=False)
+                                   "install", "-r",
+                                   path], shell=False)
 
 
 def getPackageFromApk(path):
@@ -39,19 +39,19 @@ def uninstallApp(path, device, serialno):
     if(appIsInstalled(path, device, serialno)):
         viewClientObject = ViewClient(device, serialno)
         package = getPackageFromApk(path)
-        return subprocess.check_output([viewClientObject.adb,
-                                        "uninstall",
-                                        package], shell=False)
+        return subprocess.check_call([viewClientObject.adb,
+                                     "uninstall",
+                                      package], shell=False)
     else:
-        return "App alerady uninstalled"
+        return "App already uninstalled"
 
 
 def takeScreenshot(device, filename): 
     try: 
         device.takeSnapshot(reconnect=True).save("screenshots/" + filename + '.png', 'PNG')
-        return 1
-    except: 
         return 0
+    except: 
+        return 1
 
 
 def runInstalledApp(path, device, serialno):
@@ -59,14 +59,15 @@ def runInstalledApp(path, device, serialno):
         viewClientObject = ViewClient(device, serialno)
         package = getPackageFromApk(path) 
         activity = getLaunchableActivityFromApk(path) 
-        return subprocess.check_output([viewClientObject.adb,
-                                       "shell", "am", "start",
-                                       "-n", package+"/"+activity],
-                                       shell=False)
+        return subprocess.check_call([viewClientObject.adb,
+                                      "shell", "am", "start",
+                                      "-n", package+"/"+activity],
+                                      shell=False)
     else: 
-        return "Error running app"
+        return 1
 
 
+"""
 if __name__ == "__main__":
     app_path = "apps/speedtest.apk"
     device, serialno = ViewClient.connectToDeviceOrExit(verbose=True)
@@ -75,3 +76,4 @@ if __name__ == "__main__":
     runInstalledApp(app_path, device, serialno)
     time.sleep(5)
     takeScreenshot(device, "first screenshot")
+"""

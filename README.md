@@ -58,6 +58,13 @@ En pantalla se deberá ver un * *OK* * . En caso contrario se deben seguir los p
 
 ## Ejecución
 
+Antes de ejecutar el proyecto se debe verificar que el adb esté conectado con el dipositivo. Esto se puede ver mediante la ejecución de
+
+```
+adb devices 
+```
+
+
 Para ejecutar el endpoint simplemente se debe escribir en consola y dentro de la carpeta donde se haya clonado el proyecto:
 
 ```
@@ -66,8 +73,34 @@ python challenge.py
 
 Con esto debería verse en pantalla algo como lo siguiente:
 
+```
+(android) santi@santi-Note:~/challenge-python$ python challenge.py 
+ * Serving Flask app "challenge" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:8000/ (Press CTRL+C to quit)
+```
 Esto significa que el endpoint está ejecutándose dentro del servidor * *localhost:8000* * .
-La operación para instalar la apk y tomar el screenshot se ecuentran en el endpoint * *localhost:8000/run* * y se debe pasar como parámetro el nombre de la apk que se quiera instalar. Para ver las apks disponibles 
+La operación para instalar la apk y tomar el screenshot se ecuentran en el endpoint * *localhost:8000/run* * y se debe pasar como parámetro el nombre de la apk que se quiera instalar. 
+
+Para ver las apks disponibles se puede acceder a * *localhost:8000* * lo que producirá la sigueinte respuesta: 
+
+{
+  "url_to_run_apk": "localhost/run?name=<apk_name>",
+  "available_apks": ["speedtest.apk"]
+}
+
+En este caso si se accede a * *localhost/run?name=speedtest.apk* * se instalará dicha app y se generará el screenshot correspoindiente. Como respuesta el servidor genera algo similar a lo siguiente: 
+
+{
+  "screenshot_status": "Screenshot taken and saved as speedtest.apk_1581354165.56", 
+  "running_status": "Success",
+  "installation_status": "Success", 
+  "apk_used": "apps/speedtest.apk"
+}
+
 
 ## Ejecutar los tests
 
@@ -95,4 +128,5 @@ El endpoint se puede probar con los tests que vienen en el proyecto. Sino se pue
 Por como está armado el proyecto, primero tendría que darle la posibilidad de cargar una APK en la carpeta del servidor. Luego tendría que proveerle la lista de dispositivos disponibles, cosa que se podría hacer mostrando el resultado de * *adb devices* * para que pueda envíar como parámetros el nombre de la apk a instalar y el dispositivo en el cuál lo quiere probar.  
 
 - Si tuviese más de 8 horas ... ¿qué haría?
-Si tuvuese más de 8 horas habría pensado como evitar la dependencia de un sistema linux para ejecutar algunas de las funciones del proyecto. Además agregaría más pruebas ya que todo lo hice con un celular físico y no probé de testearlo con un emulador android ni con otras apks. Me hubiera gustado también documentar más los scripts y agregar un par de pruebas unitarias más para las funciones del script android_utils.py 
+Si tuvuese más de 8 horas habría pensado como evitar la dependencia de un sistema linux para ejecutar algunas de las funciones del proyecto. Además agregaría más pruebas ya que todo lo hice con un celular físico y no probé de testearlo con un emulador android ni con otras apks. Me hubiera gustado también documentar más los scripts y agregar un par de pruebas unitarias más para las funciones del script android_utils.py.
+También me habría automatizado el chequeo de dependencias y agregado la verificación para ver si adb está activo antes de iniciar el endpoint. 

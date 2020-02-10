@@ -8,84 +8,91 @@ Se deberá utilizar lenguaje Python y Android SDK.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+El proyecto está desarrollado con Python 2.7 y las librerías que se detallan en la seccion de pre-requisitos. Para levantar el endpoint localmente se deben seguir las instrucciones de la sección ejecución
 
-### Prerequisites
+### Pre-requisitos
 
-What things you need to install the software and how to install them
+Por ahora el endpoint fue testeado en sistemas Linux por lo que se recomiendo ejecutarlo en dicho entorno. 
+Para el proyecto se utilizó la librería  [AndroidViewClient](https://github.com/dtmilano/AndroidViewClient) junto con Android Debug Bridge (adb) y Android Asset Packaging Tool (aapt)
 
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+La versión estable AndroidViewClient funciona con Python 2.7 por lo que es recomendable instalarlo un entorno separado como se recomienda en [su documentación](https://github.com/dtmilano/AndroidViewClient/wiki). 
+Lo mejor es instalarlo a través de pip en el entorno virtual creado ejecutando: 
 
 ```
-Give the example
+pip install androidviewclient
 ```
 
-And repeat
+Para installar adb y aapt puede instalarse por completo [Android SDK](https://developer.android.com/studio) o en en caso que se utilize ubuntu o alguna distribución similar se pueden instalar por separado esas herramientas con:
 
 ```
-until finished
+sudo apt-get install android-tools-adb android-tools-fastboot aapt
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Para verificar que esté todo instalado correctamente se pueden verificar las versiones de ambas herramientas: 
 
 ```
-Give an example
+adb version
 ```
 
-### And coding style tests
+```
+aapt version
+```
+En el caso que se use un dispositivo real para ejecutar el challenge, recordar que se debe habilitar la depuración por usb dentro de las opciones de desarrollador. 
 
-Explain what these tests test and why
+### Instalación
+
+Una vez que se hayan completado los pasos antes mencionados, se debe clonar este repositorio en cualquier carpeta.
+Luego, se debe activar el entorno de python en el cual se van a instalar las dependencias (si es que se hizo uno separado). 
+Todo lo necesario para ejecutar las pruebas y correr el endpoint está detallado en el archivo * *requiremets.txt* *  y se pueden installar ejecutando:
 
 ```
-Give an example
+pip install -r requirements.txt
 ```
 
-## Deployment
+Para verificar que todo esté listo se puede usar el script * *check.py* * desarrollado por los autores de AndroidViewClient:
 
-Add additional notes about how to deploy this on a live system
+```
+python check.py
+```
+En pantalla se deberá ver un * *OK* * . En caso contrario se deben seguir los pasos detallados en [la documentación oficial](https://github.com/dtmilano/AndroidViewClient/wiki)  
 
-## Built With
+## Ejecución
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+Para ejecutar el endpoint simplemente se debe escribir en consola y dentro de la carpeta donde se haya clonado el proyecto:
 
-## Contributing
+```
+python challenge.py
+```
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Con esto debería verse en pantalla algo como lo siguiente:
 
-## Versioning
+Esto significa que el endpoint está ejecutándose dentro del servidor * *localhost:8000* * .
+La operación para instalar la apk y tomar el screenshot se ecuentran en el endpoint * *localhost:8000/run* * y se debe pasar como parámetro el nombre de la apk que se quiera instalar. Para ver las apks disponibles 
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+## Ejecutar los tests
 
-## Authors
+Las pruebas unitarias están desarrolladas con pytest y para ejecutarlas primero debe estar levantado el servidor siguiendo los pasos de la sección anterior. Posteriormente simplemente se debe escribir: 
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+```
+pytest test
+```
+Esto probará que el endpoint esté disponible y devuelva todo correctamente. 
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+---
+## Preguntas
+- ¿Cómo resolvió el problema?
+Para resolver el problema decidí utilizar flask para levantar el endpoint ya que era una herramienta que ya conocía. Preferí invertir parte del timpo en investigar todo lo involucrado con el control de android ya que es en lo que menos experiencia tengo. 
+Para la parte de la instalación de la app y todo lo relativo a ello, ejecuté el adb del android SDK a través de python con la librería standard subprocess junto con AndroidViewClient. Como esta útlima por ahora solo funciona en android 2.7 decidí desarrollar todo en esa versión. Me incliné por esa librería por sobre otras similares porque es la más actualizada, siendo que el último commit se hizo hace dos meses contra otras tal vez más conocidas que no se actualizan desde hace años. 
+Para instalar la aplicación extraigo el nombre del paquete desde el archivo .apk con * *aapt* * y uso grep para extraer solamente lo que necesito. Esto hizo que perdiera la posibilidad de ejecutarse en otras plataformas que no sean linux, pero por el límite de tiempo decidí mantener la solución simple en lugar de buscar algo 100% multiplataforma. Luego que se instala la aplicación, extraigo el nombre de actividad de la apk para ejecutarla. Esto lo hice para no tener que buscar pantalla por pantalla a la aplicación y hacer click en ella, lo que permite siempre encontar a la app independientemente del layout del launcher del smartphone. Una vez que se ejecuta la app, se toma el screeshot con AndroidViewClient y se almacena con el nombre de la apk junto con un timestamp. Lo que la api devuelve se puede observar en la sección de documentación.
 
-## License
+- ¿Cuáles fueron los principales desafios?
+El principal desafío fue entender cómo utilizar python junto con Android SDK y cómo manejar un dispositivo conectado por USB. Si bien puede ser trivial, es algo que nunca tuve la necesidad de desarrollar y tuve que investigar bastante. También estuve un tiempo pensando la mejor forma de ejecutar la app sin depender de la navegación por el dispositivo. 
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+- ¿Cómo probar el endpoint?
+El endpoint se puede probar con los tests que vienen en el proyecto. Sino se puede usar cualquier .apk que se quiera y se deben seguir los pasos de la documentación. 
 
-## Acknowledgments
+- Si quisiera darle acceso a un tercero para que pueda instalar cualquier APK en una lista de emuladores existentes, ¿cómo lo resolvería ?
+Por como está armado el proyecto, primero tendría que darle la posibilidad de cargar una APK en la carpeta del servidor. Luego tendría que proveerle la lista de dispositivos disponibles, cosa que se podría hacer mostrando el resultado de * *adb devices* * para que pueda envíar como parámetros el nombre de la apk a instalar y el dispositivo en el cuál lo quiere probar.  
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+- Si tuviese más de 8 horas ... ¿qué haría?
+Si tuvuese más de 8 horas habría pensado como evitar la dependencia de un sistema linux para ejecutar algunas de las funciones del proyecto. Además agregaría más pruebas ya que todo lo hice con un celular físico y no probé de testearlo con un emulador android ni con otras apks. Me hubiera gustado también documentar más los scripts y agregar un par de pruebas unitarias más para las funciones del script android_utils.py 

@@ -43,18 +43,18 @@ En el caso que se use un dispositivo real para ejecutar el challenge, recordar q
 
 Una vez que se hayan completado los pasos antes mencionados, se debe clonar este repositorio en cualquier carpeta.
 Luego, se debe activar el entorno de python en el cual se van a instalar las dependencias (si es que se hizo uno separado). 
-Todo lo necesario para ejecutar las pruebas y correr el endpoint está detallado en el archivo * *requiremets.txt* *  y se pueden installar ejecutando:
+Todo lo necesario para ejecutar las pruebas y correr el endpoint está detallado en el archivo *requiremets.txt* y se pueden installar ejecutando:
 
 ```
 pip install -r requirements.txt
 ```
 
-Para verificar que todo esté listo se puede usar el script * *check.py* * desarrollado por los autores de AndroidViewClient:
+Para verificar que todo esté listo se puede usar el script *check.py* desarrollado por los autores de AndroidViewClient:
 
 ```
 python check.py
 ```
-En pantalla se deberá ver un * *OK* * . En caso contrario se deben seguir los pasos detallados en [la documentación oficial](https://github.com/dtmilano/AndroidViewClient/wiki)  
+En pantalla se deberá ver un *OK*. En caso contrario se deben seguir los pasos detallados en [la documentación oficial](https://github.com/dtmilano/AndroidViewClient/wiki)  
 
 ## Ejecución
 
@@ -82,17 +82,17 @@ Con esto debería verse en pantalla algo como lo siguiente:
  * Debug mode: off
  * Running on http://127.0.0.1:8000/ (Press CTRL+C to quit)
 ```
-Esto significa que el endpoint está ejecutándose dentro del servidor * *localhost:8000* * .
-La operación para instalar la apk y tomar el screenshot se ecuentran en el endpoint * *localhost:8000/run* * y se debe pasar como parámetro el nombre de la apk que se quiera instalar. 
+Esto significa que el endpoint está ejecutándose dentro del servidor *localhost:8000*.
+La operación para instalar la apk y tomar el screenshot se ecuentran en el endpoint *localhost:8000/run* y se debe pasar como parámetro el nombre de la apk que se quiera instalar. 
 
-Para ver las apks disponibles se puede acceder a * *localhost:8000* * lo que producirá la sigueinte respuesta: 
+Para ver las apks disponibles se puede acceder a *localhost:8000* lo que producirá la sigueinte respuesta: 
 
 {
   "url_to_run_apk": "localhost/run?name=<apk_name>",
   "available_apks": ["speedtest.apk"]
 }
 
-En este caso si se accede a * *localhost/run?name=speedtest.apk* * se instalará dicha app y se generará el screenshot correspoindiente. Como respuesta el servidor genera algo similar a lo siguiente: 
+En este caso si se accede a *localhost/run?name=speedtest.apk* se instalará dicha app y se generará el screenshot correspoindiente. Como respuesta el servidor genera algo similar a lo siguiente: 
 
 {
   "screenshot_status": "Screenshot taken and saved as speedtest.apk_1581354165.56", 

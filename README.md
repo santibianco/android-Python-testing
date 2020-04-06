@@ -1,10 +1,8 @@
-# Technical Challenge for Python
+# Android App Testing
 
-### Objetivo
+### Descripción
 
-Crear un endpoint local que exponga una operación que permita: instalar y lanzar una app Android (.apk) en un emulador local o en un device real (conectado via USB). 
-
-Se deberá utilizar lenguaje Python y Android SDK.
+Crear un endpoint local que exponga una operación que permita: instalar y lanzar una app Android (.apk) en un emulador local o en un device real (conectado via USB) usando Python y Android SDK.
 
 ## Getting Started
 

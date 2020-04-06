@@ -111,22 +111,20 @@ pytest test
 ```
 Esto probará que el endpoint esté disponible y devuelva todo correctamente. 
 
+<!--
 ---
 ## Preguntas
 - ¿Cómo resolvió el problema?
 Para resolver el problema decidí utilizar flask para levantar el endpoint ya que era una herramienta que ya conocía. Preferí invertir parte del timpo en investigar todo lo involucrado con el control de android ya que es en lo que menos experiencia tengo. 
 Para la parte de la instalación de la app y todo lo relativo a ello, ejecuté el adb del android SDK a través de python con la librería standard subprocess junto con AndroidViewClient. Como esta útlima por ahora solo funciona en android 2.7 decidí desarrollar todo en esa versión. Me incliné por esa librería por sobre otras similares porque es la más actualizada, siendo que el último commit se hizo hace dos meses contra otras tal vez más conocidas que no se actualizan desde hace años. 
 Para instalar la aplicación extraigo el nombre del paquete desde el archivo .apk con * *aapt* * y uso grep para extraer solamente lo que necesito. Esto hizo que perdiera la posibilidad de ejecutarse en otras plataformas que no sean linux, pero por el límite de tiempo decidí mantener la solución simple en lugar de buscar algo 100% multiplataforma. Luego que se instala la aplicación, extraigo el nombre de actividad de la apk para ejecutarla. Esto lo hice para no tener que buscar pantalla por pantalla a la aplicación y hacer click en ella, lo que permite siempre encontar a la app independientemente del layout del launcher del smartphone. Una vez que se ejecuta la app, se toma el screeshot con AndroidViewClient y se almacena con el nombre de la apk junto con un timestamp. Lo que la api devuelve se puede observar en la sección de documentación.
-
 - ¿Cuáles fueron los principales desafios?
 El principal desafío fue entender cómo utilizar python junto con Android SDK y cómo manejar un dispositivo conectado por USB. Si bien puede ser trivial, es algo que nunca tuve la necesidad de desarrollar y tuve que investigar bastante. También estuve un tiempo pensando la mejor forma de ejecutar la app sin depender de la navegación por el dispositivo. 
-
 - ¿Cómo probar el endpoint?
 El endpoint se puede probar con los tests que vienen en el proyecto. Sino se puede usar cualquier .apk que se quiera y se deben seguir los pasos de la documentación. 
-
 - Si quisiera darle acceso a un tercero para que pueda instalar cualquier APK en una lista de emuladores existentes, ¿cómo lo resolvería ?
 Por como está armado el proyecto, primero tendría que darle la posibilidad de cargar una APK en la carpeta del servidor. Luego tendría que proveerle la lista de dispositivos disponibles, cosa que se podría hacer mostrando el resultado de * *adb devices* * para que pueda envíar como parámetros el nombre de la apk a instalar y el dispositivo en el cuál lo quiere probar.  
-
 - Si tuviese más de 8 horas ... ¿qué haría?
 Si tuvuese más de 8 horas habría pensado como evitar la dependencia de un sistema linux para ejecutar algunas de las funciones del proyecto. Además agregaría más pruebas ya que todo lo hice con un celular físico y no probé de testearlo con un emulador android ni con otras apks. Me hubiera gustado también documentar más los scripts y agregar un par de pruebas unitarias más para las funciones del script android_utils.py.
 También me habría automatizado el chequeo de dependencias y agregado la verificación para ver si adb está activo antes de iniciar el endpoint. 
+-->
